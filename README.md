@@ -23,14 +23,9 @@ The output will be the file “Most common English lemmas.xlsx”.<br>
 <b>Other files:</b><br>
 - Process description on investigating rarity, domain specificity, relationship mt-rt.docx<br>
 - Data_master_text_clean_2.csv (Dataset of translated sentences)<br>
-- Manual_annotations_lost_lemmas_rarity_domain-specificity_relationships.xlsx<br>
+- Human annotations of relationships lost rare words(allMTT).xlsx<br>
+(This file contains three sheets: 1) Human/manual annotations of the lost rare lemmas (domain-specificity&relationships between the lost lemma and the translation unit that represents it in MT version. Sheet2) Table of statistics of these annotations and percentages (lost/rare/domain-specific). Sheet3) Table of statistics of these annotations for the relationships between the abovementioned (lost lemma/ translation unit in MT version).
 - Create list of the most common lemmas of English.ipynb<br>
 - Most common English lemmas.xlsx (list created with the script “Create list of the most common lemmas of English.ipynb”<br>
-- Manual annotations of relationships lost rare words<br>
-- Manual of relationships (rare lemmas) (here we should leave only the four columns [lemma/relationship/rt translation unit/rare (maybe this one is implied)]<br>
-es_en_DEEP<br>
-es_en_DEEPL<br>
-es_en_GOOGLE<br>
-es_en_TRANSFORMERS<br>
 - Domain-specific lemmas (manual reference set and Conflibert)<br>
 
