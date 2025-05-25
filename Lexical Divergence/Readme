@@ -19,63 +19,88 @@ This repository contains a robust implementation of a sentence-level evaluation 
 │ └── OPUS/
 
 
-Each subfolder contains translations from a specific MT system. The `sentence_pairs.csv` file in each folder holds aligned source and translated sentences.
+
+Each subfolder includes a `sentence_pairs.csv` file containing original and machine-translated sentence pairs.
 
 ---
 
-## 🔍 What Does the Script Do?
+## 🧩 Functionality Overview
 
-The `Lexical_DivergenceV4.ipynb` script computes **lexical divergence** based on:
+The main script performs the following steps:
 
-- A predefined **conflict_lexicon.csv** of domain-specific terms (e.g., *ceasefire*, *rebels*, *intervention*)
-- Contextual embeddings from **eventdata-utd/ConfliBERT-scr-uncased**
-- Cosine similarity and match scoring to detect replacements or omissions of keywords
+1. **Loads sentence pairs** (Original vs. MT).
+2. **Identifies missing or altered domain terms** using a reference lexicon (e.g., conflict or political terminology).
+3. For each missing term:
+   - Computes the **closest semantic match** in the MT sentence using `ConfliBERT` embeddings.
+   - Assigns a score:
 
-### Output Includes:
-- `missing_terms_lexical.csv`: All source keywords that were omitted or semantically shifted
-- `candidates_lexical.csv`: Best candidate match in the translated sentence
-- `lexical_divergence_results.csv`: Final lexical scores and classification (Acceptable vs. Divergence)
-- Plots and charts (distribution, classification bars, explanation flags)
+     ```
+     Lexical_Score = 0.7 × CosineSimilarity + 0.3 × ConflictLexiconMatch
+     ```
+
+4. **Classifies** each sentence as:
+   - `Acceptable`
+   - `Divergence`
+
+   Using:
+   - A **Gaussian Mixture Model (GMM)**-based threshold
+   - A **static threshold** (default = 0.60)
+
+5. **Generates outputs**, including:
+   - 📊 Lexical score distributions
+   - 📦 Summary statistics
+   - 📌 Top reasons for divergence
 
 ---
 
-## 📥 Input Requirements
+## 🧾 Input Format
 
-- `sentence_pairs.csv`: Aligned file with two columns: `Original_EN` and `MT_EN`
-- `conflict_lexicon.csv`: A single-column CSV of domain keywords
+Each `sentence_pairs.csv` must contain:
+
+| Original_EN                     | MT_EN                            |
+|--------------------------------|----------------------------------|
+| The ceasefire was violated...  | The truce was broken...          |
+| Protesters gathered downtown...| Demonstrations erupted...        |
+
+A domain-specific lexicon should be located at:
+
+**`conflict_lexicon.csv`**:
+
+| term        |
+|-------------|
+| ceasefire   |
+| protest     |
+| intervention|
 
 ---
 
-## 🛠️ How to Run
+## 🧾 Output Files
 
-### Option 1: Jupyter Notebook (Recommended)
+The following files are generated in `/output_lexical_gmm/` and `/output_lexical_static/`:
 
-1. Open `Lexical_DivergenceV4.ipynb`
-2. Update the `DATA_PATH` variable to your input directory
-3. Run all cells
+- `lexical_divergence_results.csv` – Final classification results  
+- `missing_terms_lexical.csv` – Terms not found in MT outputs  
+- `candidates_lexical.csv` – Semantic match candidates and scores  
+- `lexical_divergence_summary.csv` – Aggregated metrics  
 
-### Option 2: Convert to Script
+### 📊 Visualizations
+
+- `lexical_score_distribution.png`  
+- `bar_classification_comparison.png`  
+- `boxplot_gmm_classification.png`  
+- `top_explanation_flags.png`
+
+---
+
+## ⚙️ Dependencies
+
+Install the required libraries:
 
 ```bash
-jupyter nbconvert --to script Lexical_DivergenceV4.ipynb
-python Lexical_DivergenceV4.py
-##Dependencies
-pip install pandas numpy nltk scikit-learn matplotlib seaborn sentence-transformers
+pip install pandas numpy nltk scikit-learn matplotlib seaborn sentence-transformers unidecode
 
 Also download the required NLTK resources:
 import nltk
 nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('stopwords')
-
-##Outputs & Artifacts
-
-  - CSVs of results
-
-  - Score distributions
-
-  - Acceptable vs. Divergence classification charts
-
-  - Explanation flag frequency plots
-
-    Summary statistics for reporting
