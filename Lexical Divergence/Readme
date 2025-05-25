@@ -1,1 +1,108 @@
+# 📘 Lexical Divergence Evaluation (Sentence-Level, Domain-Aware)
+
+This repository provides an evaluation pipeline for measuring **lexical divergence** in **machine-translated texts**, particularly focusing on **domain-relevant keywords**. The method is designed to detect how faithfully political, peacekeeping, or conflict-sensitive terms are preserved, substituted, or omitted during translation.
+
+This is a **sentence level**, tracking whether a domain keyword was preserved or replaced with a semantically similar term in the machine-translated (MT) sentence.
+
+---
+
+## 🚀 Project Structure
+
+You will find two main language folders:
+├── Spanish_to_English/
+│ ├── Deep/
+│ ├── DeepL/
+│ ├── Google_API/
+│ └── OPUS/
+
+├── Arabic_to_English/
+│ ├── Deep/
+│ ├── DeepL/
+│ ├── Google_API/
+│ └── OPUS/
+
+Each subfolder contains `sentence_pairs.csv` with original and translated sentences for a given MT system.
+
+---
+
+## 🧩 What the Script Does
+
+The script:
+
+1. **Loads sentence pairs** (original vs MT).
+2. **Detects missing domain-relevant terms** using a reference lexicon (e.g., conflict or political keywords).
+3. For each missing term:
+   - Computes the **best semantic match** in the MT sentence using `ConfliBERT` embeddings.
+   - Scores the match using:  
+     ```
+     Lexical_Score = 0.7 × CosineSimilarity + 0.3 × ConflictLexiconMatch
+     ```
+4. Classifies each sentence as `Acceptable` or `Divergence` using both:
+   - **GMM-based thresholding**
+   - **Static threshold** (default = 0.60)
+5. Generates:
+   - 📊 Score distributions
+   - 📦 Summary statistics
+   - 📌 Top divergence reasons
+
+---
+
+## 🧾 Input Format
+
+Each `sentence_pairs.csv` should include:
+
+| Original_EN                     | MT_EN                            |
+|----------------------------------|----------------------------------|
+| The ceasefire was violated...    | The truce was broken...          |
+| Protesters gathered downtown...  | Demonstrations erupted...        |
+
+A domain-specific lexicon is expected at:  
+`conflict_lexicon.csv`:
+
+| term        |
+|-------------|
+| ceasefire   |
+| protest     |
+| intervention |
+
+---
+
+## 🧾 Output Files
+
+The script writes results into `/output_lexical_gmm/` and `/output_lexical_static/`:
+
+- `lexical_divergence_results.csv`
+- `missing_terms_lexical.csv`
+- `candidates_lexical.csv`
+- `lexical_divergence_summary.csv`
+- Visualizations:
+  - `lexical_score_distribution.png`
+  - `bar_classification_comparison.png`
+  - `boxplot_gmm_classification.png`
+  - `top_explanation_flags.png`
+
+---
+
+## ⚙️ Required Dependencies
+
+Make sure you install the following:
+
+```bash
+pip install pandas numpy nltk scikit-learn matplotlib seaborn sentence-transformers unidecode
+
+By default, the script uses:
+
+eventdata-utd/ConfliBERT-scr-uncased
+
+from HuggingFace — pretrained for domain-specific semantic similarity in political/conflict settings.
+
+##🧪 How to Run
+
+Open Lexical_DivergenceV4.ipynb and run the cells.
+
+Ensure:
+
+    sentence_pairs.csv and conflict_lexicon.csv exist
+
+    Output folders (output_lexical_gmm, output_lexical_static, etc.) will be created automatically.
 
