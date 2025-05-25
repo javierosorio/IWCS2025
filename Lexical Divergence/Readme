@@ -1,108 +1,120 @@
-# 📘 Lexical Divergence Evaluation (Sentence-Level, Domain-Aware)
+📘 Lexical Divergence Evaluation (Sentence-Level, Domain-Aware)
+This repository provides a pipeline to evaluate lexical divergence in machine-translated (MT) texts, with a focus on domain-specific terminology—particularly terms related to politics, peacekeeping, and conflict. The method identifies how well these critical keywords are preserved, replaced, or omitted during translation.
 
-This repository provides an evaluation pipeline for measuring **lexical divergence** in **machine-translated texts**, particularly focusing on **domain-relevant keywords**. The method is designed to detect how faithfully political, peacekeeping, or conflict-sensitive terms are preserved, substituted, or omitted during translation.
+The analysis is conducted at the sentence level, assessing whether domain-relevant terms are retained or substituted with semantically similar alternatives.
 
-This is a **sentence level**, tracking whether a domain keyword was preserved or replaced with a semantically similar term in the machine-translated (MT) sentence.
+🚀 Project Structure
+The project is organized by language pairs and MT systems:
 
----
-
-## 🚀 Project Structure
-
-You will find two main language folders:
+Copy
+Edit
 ├── Spanish_to_English/
-│ ├── Deep/
-│ ├── DeepL/
-│ ├── Google_API/
-│ └── OPUS/
+│   ├── Deep/
+│   ├── DeepL/
+│   ├── Google_API/
+│   └── OPUS/
 
 ├── Arabic_to_English/
-│ ├── Deep/
-│ ├── DeepL/
-│ ├── Google_API/
-│ └── OPUS/
+│   ├── Deep/
+│   ├── DeepL/
+│   ├── Google_API/
+│   └── OPUS/
+Each subfolder includes a sentence_pairs.csv file containing original and machine-translated sentence pairs.
 
-Each subfolder contains `sentence_pairs.csv` with original and translated sentences for a given MT system.
+🧩 Functionality Overview
+The main script performs the following steps:
 
----
+Loads sentence pairs (Original vs. MT).
 
-## 🧩 What the Script Does
+Identifies missing or altered domain terms using a reference lexicon (e.g., conflict or political terminology).
 
-The script:
+For each missing term:
 
-1. **Loads sentence pairs** (original vs MT).
-2. **Detects missing domain-relevant terms** using a reference lexicon (e.g., conflict or political keywords).
-3. For each missing term:
-   - Computes the **best semantic match** in the MT sentence using `ConfliBERT` embeddings.
-   - Scores the match using:  
-     ```
-     Lexical_Score = 0.7 × CosineSimilarity + 0.3 × ConflictLexiconMatch
-     ```
-4. Classifies each sentence as `Acceptable` or `Divergence` using both:
-   - **GMM-based thresholding**
-   - **Static threshold** (default = 0.60)
-5. Generates:
-   - 📊 Score distributions
-   - 📦 Summary statistics
-   - 📌 Top divergence reasons
+Computes the closest semantic match in the MT sentence using ConfliBERT embeddings.
 
----
+Assigns a score:
 
-## 🧾 Input Format
+ini
+Copy
+Edit
+Lexical_Score = 0.7 × CosineSimilarity + 0.3 × ConflictLexiconMatch
+Classifies each sentence as:
 
-Each `sentence_pairs.csv` should include:
+Acceptable
 
-| Original_EN                     | MT_EN                            |
-|----------------------------------|----------------------------------|
-| The ceasefire was violated...    | The truce was broken...          |
-| Protesters gathered downtown...  | Demonstrations erupted...        |
+Divergence
 
-A domain-specific lexicon is expected at:  
-`conflict_lexicon.csv`:
+Using:
 
-| term        |
-|-------------|
-| ceasefire   |
-| protest     |
-| intervention |
+A Gaussian Mixture Model (GMM)-based threshold
 
----
+A static threshold (default = 0.60)
 
-## 🧾 Output Files
+Generates outputs, including:
 
-The script writes results into `/output_lexical_gmm/` and `/output_lexical_static/`:
+📊 Lexical score distributions
 
-- `lexical_divergence_results.csv`
-- `missing_terms_lexical.csv`
-- `candidates_lexical.csv`
-- `lexical_divergence_summary.csv`
-- Visualizations:
-  - `lexical_score_distribution.png`
-  - `bar_classification_comparison.png`
-  - `boxplot_gmm_classification.png`
-  - `top_explanation_flags.png`
+📦 Summary statistics
 
----
+📌 Top reasons for divergence
 
-## ⚙️ Required Dependencies
+🧾 Input Format
+Each sentence_pairs.csv must contain:
 
-Make sure you install the following:
+Original_EN	MT_EN
+The ceasefire was violated...	The truce was broken...
+Protesters gathered downtown...	Demonstrations erupted...
 
-```bash
+A domain-specific lexicon should be located at:
+
+conflict_lexicon.csv:
+
+term
+ceasefire
+protest
+intervention
+
+🧾 Output Files
+The following files are generated in /output_lexical_gmm/ and /output_lexical_static/:
+
+lexical_divergence_results.csv – Final classification results
+
+missing_terms_lexical.csv – Terms not found in MT outputs
+
+candidates_lexical.csv – Semantic match candidates and scores
+
+lexical_divergence_summary.csv – Aggregated metrics
+
+📊 Visualizations
+lexical_score_distribution.png
+
+bar_classification_comparison.png
+
+boxplot_gmm_classification.png
+
+top_explanation_flags.png
+
+⚙️ Dependencies
+Install the required libraries:
+
+bash
+Copy
+Edit
 pip install pandas numpy nltk scikit-learn matplotlib seaborn sentence-transformers unidecode
-
-By default, the script uses:
+This project uses the pretrained model:
 
 eventdata-utd/ConfliBERT-scr-uncased
+(via Hugging Face) – specialized for political/conflict domain semantics.
 
-from HuggingFace — pretrained for domain-specific semantic similarity in political/conflict settings.
+🧪 How to Run
+Open Lexical_DivergenceV4.ipynb in Jupyter Notebook.
 
-##🧪 How to Run
+Run all cells in sequence.
 
-Open Lexical_DivergenceV4.ipynb and run the cells.
+Ensure the following files are present in your working directory:
 
-Ensure:
+sentence_pairs.csv
 
-    sentence_pairs.csv and conflict_lexicon.csv exist
+conflict_lexicon.csv
 
-    Output folders (output_lexical_gmm, output_lexical_static, etc.) will be created automatically.
-
+Output directories (e.g., /output_lexical_gmm/, /output_lexical_static/) will be created automatically.
