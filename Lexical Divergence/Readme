@@ -1,6 +1,6 @@
 # 📘 Lexical Divergence Evaluation (Sentence-Level, Domain-Aware)
 
-This repository provides a pipeline to evaluate **lexical divergence** in **machine-translated (MT) texts**, with a focus on **domain-specific terminology**—particularly terms related to politics, peacekeeping, and conflict. The method identifies how well these critical keywords are preserved, replaced, or omitted during translation.
+This repository provides a pipeline to evaluate **lexical divergence** in **machine-translated (MT) texts**, with a focus on **domain-specific terminology** — particularly terms related to politics, peacekeeping, and conflict. The method identifies how well these critical keywords are preserved, replaced, or omitted during translation.
 
 The analysis is conducted at the **sentence level**, assessing whether domain-relevant terms are retained or substituted with semantically similar alternatives.
 
