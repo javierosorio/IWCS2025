@@ -21,6 +21,7 @@ The output will be the file “Most common English lemmas.xlsx”.<br>
 - Compares the results between the automatic annotation and the manual annotation (table_1_manual_annotations.csv)<br>
 
 <b>Other files:</b><br>
+- The script "Domain-specificity score using ConfliBERT.ipynb" calculates how similar words from your dataset are to a set of reference words related to political conflict and violence. It uses the ConfliBERT language model and stanza lemmatizer to create embeddings (word meanings represented as numbers). The script then saves a similarity score to a new Excel file.
 - Process description on investigating rarity, domain specificity, relationship mt-rt.docx<br>
 - Data_master_text_clean_2.csv (Dataset of translated sentences)<br>
 - Human annotations of relationships lost rare words(allMTT).xlsx<br>
