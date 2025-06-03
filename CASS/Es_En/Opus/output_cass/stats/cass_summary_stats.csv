@@ -1,0 +1,2 @@
+Total Terms,Accepted (GMM),Divergence (GMM),Accepted (Static),Divergence (Static),NonEnglish Cases,Orthographic Errors,Diacritic Errors,Ortho Penalty (Diacritic),Ortho Penalty (Other),Threshold GMM,Threshold Static
+561,331,230,4,557,229,0,9,0.1,0.15,0.233,0.62
