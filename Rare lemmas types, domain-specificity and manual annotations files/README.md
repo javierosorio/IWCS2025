@@ -26,6 +26,7 @@ The output will be the file “Most common English lemmas.xlsx”.<br>
 - Data_master_text_clean_2.csv (Dataset of translated sentences)<br>
 - Human annotations of relationships lost rare words(allMTT).xlsx<br>
 (This file contains three sheets: 1) Human/manual annotations of the lost rare lemmas (domain-specificity&relationships between the lost lemma and the translation unit that represents it in MT version. Sheet2) Table of statistics of these annotations and percentages (lost/rare/domain-specific). Sheet3) Table of statistics of these annotations for the relationships between the abovementioned (lost lemma/ translation unit in MT version).
+  - Another 4 files contain the annotation of the relationship between translation units only for the rare lemmas
 - Create list of the most common lemmas of English.ipynb<br>
 - Most common English lemmas.xlsx (list created with the script “Create list of the most common lemmas of English.ipynb”<br>
 - Domain-specific lemmas (manual reference set and Conflibert)<br>
