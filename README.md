@@ -6,7 +6,7 @@
 <p>
   Here is a brief description of the folders, files and their purpose:
   <h2>Rare lemmas types, domain-specificity and manual annotations files</h2>
-  The resources needed to replicate the results (the automatic portion) and the file/s with the manual annotations.
+  The resources needed to replicate the results (the automatic portion of the annotation of the domain-specificity and rarity) and the file/s of the manual annotations.
   <h2>Lexical Divergence</h2>
    
 </p>
