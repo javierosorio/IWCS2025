@@ -1,0 +1,2 @@
+Total Terms,Accepted (GMM),Divergence (GMM),Accepted (Static),Divergence (Static),Orthographic Errors,Diacritic Errors,CharNoise Matches,WeirdChar Issues,Abbreviation Matches,NER Drops,POS Mismatches,Threshold GMM,Threshold Static
+331,27,304,28,303,0,36,15,5,27,154,0,0.731,0.62
